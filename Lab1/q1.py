@@ -1,22 +1,25 @@
 from Lab1 import createDB
+import sys
 
-def q1(file1, file2):
-    # Find all active users last names who live in Toronto
+files = sys.argv
 
-    db1 = createDB(file1)
-    db2 = createDB(file2)
+file1 = files[1]
+file2 = files[2]
 
-    # Lists all the ids that are in Toronto
-    ids = []
-    for id in db2:
-        if db2[id] != {} and db2[id]["ZONEDESC"].lower() == "toronto":
-            ids.append(db2[id]["ZONEID"])
-    print(ids)
-    # Lists the users last names that are active in toronto
-    users = []
-    for user in db1:
-        if db1[user] != {} and db1[user]["ACTIVE"] == "1" and db1[user]["ZONE"] in ids:
-            users.append(db1[user]["LNAME"])
+customers = createDB(file1)
+zones = createDB(file2)
 
-    for user in users:
-        print(user)
+# Lists all the ids that are in Toronto
+ids = []
+for id in zones:
+    if zones[id] != {} and zones[id]["ZONEDESC"].lower() == "toronto":
+        ids.append(id)
+    
+# Lists the users last names that are active in toronto
+users = []
+for user in customers:
+    if customers[user] != {} and customers[user]["ACTIVE"] == "1" and customers[user]["ZONE"] in ids:
+        users.append(customers[user]["LNAME"])
+
+for user in users:
+    print(user)
